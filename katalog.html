@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mobile-first: viewport wajib agar breakpoint bekerja di HP -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kopi Nusantara — Katalog Produk</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --hijau: #1f3d2b;
+      --hijau-muda: #e6ede3;
+      --kertas: #f7f8f4;
+      --emas: #e0a526;
+      --teks: #1d2420;
+
+      /* clamp(min, ideal, max) -> ukuran huruf fluid antar breakpoint */
+      --fs-hero: clamp(2rem, 1.2rem + 4vw, 4.25rem);
+      --fs-judul: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+      --fs-card: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
+      --fs-body: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
+    }
+
+    body {
+      font-family: "Public Sans", system-ui, sans-serif;
+      font-size: var(--fs-body);
+      background: var(--kertas);
+      color: var(--teks);
+    }
+    h1, h2, h3, h4, .navbar-brand { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+
+    /* ---------- Navbar ---------- */
+    .navbar { background: var(--hijau); }
+    .navbar-brand { color: #fff !important; font-weight: 800; font-size: var(--fs-card); letter-spacing: .01em; }
+    .navbar .nav-link { color: rgba(255,255,255,.82); }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--emas); }
+    .navbar-toggler { border-color: rgba(255,255,255,.5); }
+    .navbar-toggler-icon { filter: invert(1); }
+
+    /* ---------- Hero ---------- */
+    .hero { background: var(--hijau); color: #fff; padding-block: clamp(2.5rem, 6vw, 5.5rem); }
+    .hero h1 { font-size: var(--fs-hero); font-weight: 800; line-height: 1.05; max-width: 14ch; }
+    .hero p { font-size: clamp(1rem, .95rem + .4vw, 1.25rem); max-width: 48ch; color: rgba(255,255,255,.8); }
+    .btn-emas { background: var(--emas); color: #1d1500; font-weight: 600; border: 0; }
+    .btn-emas:hover { background: #f0b73a; color: #1d1500; }
+
+    /* ---------- Katalog ---------- */
+    .judul-seksi { font-size: var(--fs-judul); font-weight: 800; }
+    .filter-btn { border-radius: 999px; }
+    .filter-btn.active { background: var(--hijau); border-color: var(--hijau); color: #fff; }
+
+    .produk { border: 1px solid #dfe5da; background: #fff; border-radius: .75rem; overflow: hidden; }
+    .produk .gambar { aspect-ratio: 4 / 3; background: var(--hijau-muda); }
+    /* Responsive image: selalu mengisi lebar kartu, tidak distorsi */
+    .produk .gambar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .produk .card-title { font-size: var(--fs-card); font-weight: 700; }
+    .produk .asal { font-size: .85em; color: #5b665e; }
+    .produk .harga { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-size: var(--fs-card); color: var(--hijau); }
+    .produk .btn-beli { background: var(--hijau); color: #fff; }
+    .produk .btn-beli:hover { background: #2d5a3f; color: #fff; }
+    .label-baru { position: absolute; top: .6rem; left: .6rem; background: var(--emas); color: #1d1500; font-size: .75rem; font-weight: 600; padding: .15rem .55rem; border-radius: 999px; }
+
+    /* ---------- Footer ---------- */
+    footer { background: var(--hijau); color: rgba(255,255,255,.8); font-size: var(--fs-body); }
+    footer h5 { color: #fff; font-family: "Bricolage Grotesque", sans-serif; font-size: var(--fs-card); }
+    footer a { color: rgba(255,255,255,.8); text-decoration: none; }
+    footer a:hover { color: var(--emas); }
+
+    :focus-visible { outline: 3px solid var(--emas); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR: hamburger tampil di bawah breakpoint md (768px) -->
+  <nav class="navbar navbar-expand-md sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Kopi Nusantara</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#menuUtama" aria-controls="menuUtama"
+              aria-expanded="false" aria-label="Buka menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menuUtama">
+        <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+          <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#katalog">Katalog</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="beranda">
+    <div class="container">
+      <h1>Biji kopi langsung dari kebun petani lokal</h1>
+      <p class="mt-3 mb-4">Disangrai tiap pekan, dikirim segar ke seluruh Indonesia. Pilih asal dan tingkat sangrai favoritmu.</p>
+      <a href="#katalog" class="btn btn-emas btn-lg">Lihat katalog</a>
+    </div>
+  </header>
+
+  <!-- KATALOG -->
+  <main class="container py-5" id="katalog">
+    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-end gap-3 mb-4">
+      <h2 class="judul-seksi mb-0">Katalog produk</h2>
+      <div class="d-flex flex-wrap gap-2" id="filter" role="group" aria-label="Filter kategori">
+        <button class="btn btn-outline-secondary btn-sm filter-btn active" data-kat="semua">Semua</button>
+        <button class="btn btn-outline-secondary btn-sm filter-btn" data-kat="biji">Biji</button>
+        <button class="btn btn-outline-secondary btn-sm filter-btn" data-kat="bubuk">Bubuk</button>
+        <button class="btn btn-outline-secondary btn-sm filter-btn" data-kat="alat">Alat seduh</button>
+      </div>
+    </div>
+
+    <!-- GRID RESPONSIF: 1 kolom (HP) -> 2 (>=576px) -> 3 (>=992px) -> 4 (>=1200px) -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3 g-lg-4" id="grid"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="pt-5 pb-4" id="kontak">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 col-md-5">
+          <h5>Kopi Nusantara</h5>
+          <p class="mb-0">Toko kopi daring dari petani lokal. Dibuat sebagai tugas Pemrograman Web — Pertemuan 3.</p>
+        </div>
+        <div class="col-6 col-md-3">
+          <h5>Menu</h5>
+          <ul class="list-unstyled mb-0">
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#katalog">Katalog</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-4">
+          <h5>Kontak</h5>
+          <ul class="list-unstyled mb-0">
+            <li>halo@kopinusantara.test</li>
+            <li>+62 812-0000-0000</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="border-light opacity-25 my-4">
+      <p class="small mb-0 text-center">&copy; 2026 Kopi Nusantara. Hak cipta dilindungi.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Placeholder gambar (SVG inline). Ganti `gambar` dengan URL foto asli jika ada,
+    // misalnya "img/gayo.jpg" — CSS-nya sudah responsif.
+    const placeholder = (warna, emoji) =>
+      "data:image/svg+xml;utf8," + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="${warna}"/><text x="50%" y="54%" font-size="110" text-anchor="middle" dominant-baseline="middle">${emoji}</text></svg>`);
+
+    const produk = [
+      { nama: "Gayo Aceh Natural 250 g",  asal: "Aceh Tengah",   harga: 89000,  kat: "biji",   baru: true,  gambar: placeholder("#d9c7a8", "☕") },
+      { nama: "Toraja Sapan 250 g",       asal: "Tana Toraja",   harga: 95000,  kat: "biji",   baru: false, gambar: placeholder("#c9d8c0", "🫘") },
+      { nama: "Flores Bajawa 250 g",      asal: "Flores",        harga: 92000,  kat: "biji",   baru: false, gambar: placeholder("#e3d2b4", "☕") },
+      { nama: "Kintamani Honey 250 g",    asal: "Bali",          harga: 98000,  kat: "biji",   baru: true,  gambar: placeholder("#f0dba0", "🍯") },
+      { nama: "House Blend Bubuk 200 g",  asal: "Campuran",      harga: 59000,  kat: "bubuk",  baru: false, gambar: placeholder("#cdb99b", "🥄") },
+      { nama: "Robusta Lampung Bubuk",    asal: "Lampung",       harga: 49000,  kat: "bubuk",  baru: false, gambar: placeholder("#bfa889", "🥄") },
+      { nama: "V60 Dripper Keramik",      asal: "Alat seduh",    harga: 135000, kat: "alat",   baru: true,  gambar: placeholder("#cfdcd2", "🫖") },
+      { nama: "Gilingan Kopi Manual",     asal: "Alat seduh",    harga: 275000, kat: "alat",   baru: false, gambar: placeholder("#d7dccd", "⚙️") }
+    ];
+
+    const rupiah = n => new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n);
+    const grid = document.getElementById("grid");
+
+    function tampil(kat) {
+      grid.innerHTML = produk
+        .filter(p => kat === "semua" || p.kat === kat)
+        .map(p => `
+          <div class="col">
+            <article class="produk card h-100 position-relative">
+              ${p.baru ? '<span class="label-baru">Baru</span>' : ""}
+              <div class="gambar"><img src="${p.gambar}" alt="${p.nama}" loading="lazy"></div>
+              <div class="card-body d-flex flex-column">
+                <h3 class="card-title mb-1">${p.nama}</h3>
+                <p class="asal mb-3">${p.asal}</p>
+                <div class="mt-auto d-flex justify-content-between align-items-center gap-2">
+                  <span class="harga">${rupiah(p.harga)}</span>
+                  <button class="btn btn-beli btn-sm" type="button">Beli</button>
+                </div>
+              </div>
+            </article>
+          </div>`).join("");
+    }
+
+    document.getElementById("filter").addEventListener("click", e => {
+      const btn = e.target.closest("[data-kat]");
+      if (!btn) return;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      tampil(btn.dataset.kat);
+    });
+
+    tampil("semua");
+  </script>
+</body>
+</html>
